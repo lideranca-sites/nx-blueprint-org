@@ -1,5 +1,5 @@
 {
-  "name": "@acmeorg/utils-nestjs",
+  "name": "@lideranca-sites/utils-nestjs",
   "version": "0.0.1",
   "type": "commonjs",
   "main": "./src/index.js",

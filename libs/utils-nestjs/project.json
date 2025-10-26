@@ -1,7 +1,7 @@
 {
-  "name": "@acmeorg/utils-nestjs",
+  "name": "@lideranca-sites/utils-nestjs",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/nest-utils/src",
+  "sourceRoot": "libs/utils-nestjs/src",
   "projectType": "library",
   "release": {
     "version": {
@@ -26,12 +26,12 @@
         "{options.outputPath}"
       ],
       "options": {
-        "outputPath": "dist/libs/nest-utils",
-        "tsConfig": "libs/nest-utils/tsconfig.lib.json",
-        "packageJson": "libs/nest-utils/package.json",
-        "main": "libs/nest-utils/src/index.ts",
+        "outputPath": "dist/libs/utils-nestjs",
+        "tsConfig": "libs/utils-nestjs/tsconfig.lib.json",
+        "packageJson": "libs/utils-nestjs/package.json",
+        "main": "libs/utils-nestjs/src/index.ts",
         "assets": [
-          "libs/nest-utils/*.md"
+          "libs/utils-nestjs/*.md"
         ]
       }
     },
