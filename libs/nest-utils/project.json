@@ -1,0 +1,44 @@
+{
+  "name": "@acmeorg/utils-nestjs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/nest-utils/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/{projectRoot}",
+        "currentVersionResolver": "git-tag",
+        "fallbackCurrentVersionResolver": "disk"
+      }
+    }
+  },
+  "tags": [
+    "type:lib",
+    "scope:internal",
+    "runtime:node",
+    "layer:infrastructure",
+    "visibility:public"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/libs/nest-utils",
+        "tsConfig": "libs/nest-utils/tsconfig.lib.json",
+        "packageJson": "libs/nest-utils/package.json",
+        "main": "libs/nest-utils/src/index.ts",
+        "assets": [
+          "libs/nest-utils/*.md"
+        ]
+      }
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}
