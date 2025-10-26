@@ -1,0 +1,95 @@
+name: 'Node.js Validation'
+description: 'Validate Node.js code with ESLint, Biome format and tests'
+
+inputs:
+  strategy:
+    description: 'Execution strategy (affected or all)'
+    required: true
+    default: 'affected'
+  base-ref:
+    description: 'Base reference for affected strategy'
+    required: false
+    default: 'origin/main'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Install pnpm
+      run: |
+        echo "📦 Installing pnpm..."
+        npm install -g pnpm@9.15.0
+        echo "pnpm-version=$(pnpm --version)" >> $GITHUB_OUTPUT
+      shell: bash
+
+    - name: Install Dependencies
+      run: |
+        echo "📦 Installing dependencies..."
+        pnpm install --frozen-lockfile
+        echo "✅ Dependencies installed"
+      shell: bash
+
+    - name: Check Node.js projects exist
+      run: |
+        if [ ! -d "apps/bff-nest" ] && [ ! -d "apps/express-notifier" ] && [ ! -d "libs" ]; then
+          echo "No Node.js projects found, skipping Node.js validation"
+          exit 0
+        fi
+      shell: bash
+
+    - name: ESLint
+      run: |
+        echo "🔍 Running ESLint..."
+        if [ "${{ inputs.strategy }}" = "affected" ]; then
+          AFFECTED_PROJECTS=$(pnpm nx affected --target=lint --plain 2>/dev/null || echo "")
+          if [ -z "$AFFECTED_PROJECTS" ] || [ "$AFFECTED_PROJECTS" = "No tasks were run" ]; then
+            echo "ℹ️ No affected projects found for lint, skipping"
+          else
+            pnpm nx affected --target=lint
+          fi
+        else
+          pnpm nx run-many --target=lint --all
+        fi
+        echo "✅ ESLint passed"
+      shell: bash
+
+    - name: Biome Check
+      run: |
+        echo "🔍 Running Biome check via Nx..."
+        if [ "${{ inputs.strategy }}" = "affected" ]; then
+          AFFECTED_PROJECTS=$(pnpm nx affected --target=biome-check --plain 2>/dev/null || echo "")
+          if [ -z "$AFFECTED_PROJECTS" ] || [ "$AFFECTED_PROJECTS" = "No tasks were run" ]; then
+            echo "ℹ️ No affected projects found for biome-check, skipping"
+          else
+            pnpm nx affected --target=biome-check
+          fi
+        else
+          pnpm nx run-many --target=biome-check
+        fi
+        echo "✅ Biome check passed"
+      shell: bash
+
+    - name: Node.js Tests
+      run: |
+        echo "🧪 Running Node.js tests..."
+        if [ "${{ inputs.strategy }}" = "affected" ]; then
+          AFFECTED_PROJECTS=$(pnpm nx affected --target=test --plain 2>/dev/null || echo "")
+          if [ -z "$AFFECTED_PROJECTS" ] || [ "$AFFECTED_PROJECTS" = "No tasks were run" ]; then
+            echo "ℹ️ No affected projects found for test, skipping"
+          else
+            pnpm nx affected --target=test
+          fi
+        else
+          pnpm nx run-many --target=test --all
+        fi
+        echo "✅ Node.js tests passed"
+      shell: bash

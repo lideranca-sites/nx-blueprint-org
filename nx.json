@@ -1,0 +1,266 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "namedInputs": {
+    "default": ["{projectRoot}/**/*", "sharedGlobals"],
+    "production": [
+      "default",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.mjs",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/jest.config.[jt]s",
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/test-setup.[jt]s",
+      "!{projectRoot}/**/*.md",
+      "!{projectRoot}/**/*.stories.[jt]s?(x)",
+      "!{projectRoot}/**/*.story.[jt]s?(x)"
+    ],
+    "testing": [
+      "{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?",
+      "{projectRoot}/jest.config.[jt]s",
+      "{projectRoot}/tsconfig.spec.json",
+      "{projectRoot}/src/test-setup.[jt]s",
+      "{projectRoot}/test-setup.[jt]s"
+    ],
+    "linting": [
+      "{projectRoot}/**/*.[jt]s?(x)",
+      "{projectRoot}/.eslintrc.json",
+      "{projectRoot}/eslint.config.mjs",
+      "{projectRoot}/tsconfig.json",
+      "{projectRoot}/tsconfig.*.json"
+    ],
+    "go": [
+      "{projectRoot}/**/*.go",
+      "{projectRoot}/go.mod",
+      "{projectRoot}/go.sum",
+      "{workspaceRoot}/go.work",
+      "{workspaceRoot}/go.work.sum"
+    ],
+    "docker": [
+      "{projectRoot}/Dockerfile",
+      "{projectRoot}/.dockerignore",
+      "{projectRoot}/docker-compose.yml"
+    ],
+    "certificates": [
+      "{workspaceRoot}/docs/certificates/**/*.md"
+    ],
+    "sharedGlobals": [
+      "{workspaceRoot}/go.work",
+      "{workspaceRoot}/go.work.sum",
+      "{workspaceRoot}/pnpm-lock.yaml",
+      "{workspaceRoot}/nx.json",
+      "{workspaceRoot}/tsconfig.base.json",
+      "{workspaceRoot}/jest.config.ts",
+      "{workspaceRoot}/jest.preset.js",
+      "{workspaceRoot}/biome.json",
+      "{workspaceRoot}/eslint.config.mjs"
+    ]
+  },
+  "plugins": [
+    {
+      "plugin": "@nx/webpack/plugin",
+      "options": {
+        "buildTargetName": "build",
+        "serveTargetName": "serve",
+        "previewTargetName": "preview",
+        "buildDepsTargetName": "build-deps",
+        "watchDepsTargetName": "watch-deps"
+      }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      },
+      "exclude": ["*-e2e/**/*"]
+    },
+    "@nx-go/nx-go",
+    "@nx/eslint/plugin"
+  ],
+  "generators": {
+    "@nx/eslint:lint": {
+      "options": {
+        "lintFilePatterns": [
+          "{projectRoot}/**/*.{ts,tsx,js,jsx}"
+        ]
+      }
+    }
+  },
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "outputs": ["{options.outputPath}"]
+    },
+    "build": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production", "sharedGlobals"],
+      "outputs": [
+        "{workspaceRoot}/dist/{projectRoot}",
+        "{projectRoot}/dist"
+      ],
+      "options": {
+        "parallel": true
+      },
+      "retry": {
+        "maxRetries": 2,
+        "retryDelay": 2000,
+        "retryableErrorPatterns": [
+          "ECONNRESET",
+          "ETIMEDOUT",
+          "ENOTFOUND",
+          "Network error",
+          "Timeout",
+          "Build timeout",
+          "Compilation timeout"
+        ]
+      }
+    },
+    "test": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^production", "testing", "sharedGlobals"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "coverage": true,
+        "coverageReporters": ["text", "lcov", "html"],
+        "coverageThreshold": {
+          "global": {
+            "branches": 70,
+            "functions": 70,
+            "lines": 70,
+            "statements": 70
+          }
+        },
+        "parallel": true
+      },
+      "retry": {
+        "maxRetries": 3,
+        "retryDelay": 3000,
+        "retryableErrorPatterns": [
+          "ECONNRESET",
+          "ETIMEDOUT",
+          "ENOTFOUND",
+          "Network error",
+          "Timeout",
+          "Test timeout",
+          "Jest timeout",
+          "Connection refused"
+        ]
+      }
+    },
+    "lint": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["linting", "sharedGlobals"],
+      "options": {
+        "parallel": true
+      },
+      "retry": {
+        "maxRetries": 2,
+        "retryDelay": 1000,
+        "retryableErrorPatterns": [
+          "ECONNRESET",
+          "ETIMEDOUT",
+          "ENOTFOUND",
+          "Network error",
+          "Timeout",
+          "Lint timeout"
+        ]
+      }
+    },
+    "@nx/js:swc": {
+      "cache": true,
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "options": {
+        "parallel": true
+      }
+    },
+    "check-boundaries": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": ["sharedGlobals"],
+      "options": {
+        "command": "nx graph --file=graph.json && nx graph --affected --file=affected-graph.json",
+        "parallel": true
+      }
+    },
+    "format": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": ["default", "sharedGlobals"],
+      "options": {
+        "command": "biome format --write .",
+        "parallel": true
+      }
+    },
+    "biome-check": {
+      "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": ["default", "sharedGlobals"],
+      "options": {
+        "command": "biome check --formatter-enabled=true .",
+        "cwd": "{workspaceRoot}",
+        "parallel": true
+      }
+    },
+    "serve": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "tidy": {
+      "cache": true,
+      "inputs": ["go", "sharedGlobals"]
+    },
+    "sync-go-deps": {
+      "cache": false,
+      "inputs": ["go", "sharedGlobals"]
+    }
+  },
+  "cacheDirectory": ".nx/cache",
+  "neverConnectToCloud": true,
+  "parallel": 5,
+  "defaultBase": "main",
+  "release": {
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}@v{version}",
+    "projects": ["@acmeorg/*", "!@acmeorg/source"],
+    "version": {
+      "preVersionCommand": "pnpm nx run-many -t build",
+      "conventionalCommits": true,
+      "generatorOptions": {
+        "fallbackCurrentVersionResolver": "disk"
+      }
+    },
+    "git": {
+      "commit": true,
+      "tag": true,
+      "commitMessage": "chore(release): publish {version}",
+      "tagMessage": "chore(release): publish {version}"
+    },
+    "publish": {
+      "projects": []
+    },
+    "changelog": {
+      "automaticFromRef": true,
+      "createRelease": "github",
+      "projectChangelogs": {
+        "renderOptions": {
+          "authors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      },
+      "workspaceChangelog": {
+        "renderOptions": {
+          "authors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
+      }
+    }
+  }
+}
