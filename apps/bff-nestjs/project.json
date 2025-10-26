@@ -1,5 +1,5 @@
 {
-  "name": "@acmeorg/bff-nestjs",
+  "name": "@lideranca-sites/bff-nestjs",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/bff-nestjs/src",
   "projectType": "application",
@@ -35,15 +35,15 @@
         "build"
       ],
       "options": {
-        "buildTarget": "@acmeorg/bff-nestjs:build",
+        "buildTarget": "@lideranca-sites/bff-nestjs:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "@acmeorg/bff-nestjs:build:development"
+          "buildTarget": "@lideranca-sites/bff-nestjs:build:development"
         },
         "production": {
-          "buildTarget": "@acmeorg/bff-nestjs:build:production"
+          "buildTarget": "@lideranca-sites/bff-nestjs:build:production"
         }
       }
     }

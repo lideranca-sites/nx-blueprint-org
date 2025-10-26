@@ -1,5 +1,5 @@
 export default {
-  displayName: '@acmeorg/bff-nestjs',
+  displayName: '@lideranca-sites/bff-nestjs',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
