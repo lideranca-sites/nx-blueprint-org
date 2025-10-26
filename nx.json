@@ -152,6 +152,7 @@
       ],
       "options": {
         "coverage": true,
+        "passWithNoTests": true,
         "coverageReporters": [
           "text",
           "lcov",
