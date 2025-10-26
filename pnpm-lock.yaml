@@ -178,6 +178,12 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(webpack@5.98.0)
 
+  libs/nest-utils:
+    dependencies:
+      tslib:
+        specifier: ^2.3.0
+        version: 2.8.1
+
 packages:
 
   '@adobe/css-tools@4.3.3':
