@@ -46,11 +46,6 @@
           "buildTarget": "@acmeorg/bff-nestjs:build:production"
         }
       }
-    },
-    "test": {
-      "options": {
-        "passWithNoTests": true
-      }
     }
   }
 }
