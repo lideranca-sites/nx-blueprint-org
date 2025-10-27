@@ -180,6 +180,10 @@ importers:
 
   apps/bff-nestjs: {}
 
+  apps/service-go: {}
+
+  libs/utils-go: {}
+
   libs/utils-nestjs:
     dependencies:
       tslib:
