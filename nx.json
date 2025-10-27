@@ -295,17 +295,23 @@
       "conventionalCommits": true,
       "generatorOptions": {
         "fallbackCurrentVersionResolver": "disk"
+      },
+      "git": {
+        "commit": true,
+        "tag": true,
+        "commitMessage": "📦 release(release): launch release {version}",
+        "tagMessage": "📦 release(release): launch release {version}"
       }
-    },
-    "git": {
-      "commit": true,
-      "tag": true,
-      "commitMessage": "📦 release(release): launch release {version}",
-      "tagMessage": "📦 release(release): launch release {version}"
     },
     "changelog": {
       "automaticFromRef": true,
       "createRelease": "github",
+      "git": {
+        "commit": true,
+        "tag": true,
+        "commitMessage": "📦 release(release): launch release {version}",
+        "tagMessage": "📦 release(release): launch release {version}"
+      },
       "projectChangelogs": {
         "renderOptions": {
           "authors": true,
