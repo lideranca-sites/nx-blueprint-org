@@ -5,4 +5,5 @@ module.exports = {
 	cache: true,
 	cacheDirectory: '<rootDir>/node_modules/.cache/jest',
 	testTimeout: 10000,
+	passWithNoTests: true,
 };

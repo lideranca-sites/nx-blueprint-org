@@ -46,4 +46,5 @@ export default async (): Promise<Config> => ({
   forceExit: true, // Forçar saída após testes
   detectOpenHandles: true, // Detectar handles abertos que podem causar flaky tests
   detectLeaks: true, // Detectar vazamentos de memória
+  passWithNoTests: true, // Passar se não houver testes
 });
