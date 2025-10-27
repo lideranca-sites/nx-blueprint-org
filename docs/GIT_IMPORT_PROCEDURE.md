@@ -120,8 +120,8 @@ Atualize dependências para usar protocolo workspace:
 ```json
 {
   "dependencies": {
-    "@acmeorg/shared-utils": "workspace:*",
-    "@acmeorg/api-client": "workspace:*"
+    "@lideranca-sites/shared-utils": "workspace:*",
+    "@lideranca-sites/api-client": "workspace:*"
   }
 }
 ```

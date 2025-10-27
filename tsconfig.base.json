@@ -18,8 +18,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@acmeorg/utils-nestjs": [
-        "libs/nest-utils/src/index.ts"
+      "@lideranca-sites/utils-nestjs": [
+        "libs/utils-nestjs/src/index.ts"
       ]
     }
   },
