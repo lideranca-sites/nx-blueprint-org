@@ -303,9 +303,6 @@
       "commitMessage": "chore(release): publish {version}",
       "tagMessage": "chore(release): publish {version}"
     },
-    "publish": {
-      "projects": []
-    },
     "changelog": {
       "automaticFromRef": true,
       "createRelease": "github",
