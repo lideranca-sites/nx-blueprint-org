@@ -1,2 +1,5 @@
 go 1.22
-use ./libs/utils-go
+use (
+	./apps/service-go
+	./libs/utils-go
+)
