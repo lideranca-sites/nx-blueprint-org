@@ -286,9 +286,9 @@
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@v{version}",
     "projects": [
+      "lideranca-sites/*",
       "@lideranca-sites/*",
-      "!@lideranca-sites/source",
-      "@lideranca-sites/utils-nestjs"
+      "!@lideranca-sites/source"
     ],
     "version": {
       "preVersionCommand": "pnpm nx run-many -t build",
