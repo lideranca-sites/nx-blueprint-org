@@ -312,13 +312,6 @@
           "commitReferences": true,
           "versionTitleDate": true
         }
-      },
-      "workspaceChangelog": {
-        "renderOptions": {
-          "authors": true,
-          "commitReferences": true,
-          "versionTitleDate": true
-        }
       }
     }
   }
