@@ -1,6 +1,6 @@
 {
   "name": "@lideranca-sites/bff-nestjs",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "description": "BFF NestJS application",
   "main": "dist/main.js",
   "scripts": {
