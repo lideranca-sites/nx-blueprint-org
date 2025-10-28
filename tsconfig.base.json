@@ -10,21 +10,17 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "ESNext",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ],
+    "lib": ["ES2022", "DOM"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
     "isolatedModules": false,
     "verbatimModuleSyntax": false,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": true,
+    "paths": {
+      "@your-org/utils-node": ["libs/utils-node/src/index.ts"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "tmp",
-    "draft"
-  ]
+  "exclude": ["node_modules", "tmp", "draft"]
 }

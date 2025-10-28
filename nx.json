@@ -1,9 +1,7 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "namedInputs": {
-    "sources": [
-      "{projectRoot}/**/*"
-    ],
+    "sources": ["{projectRoot}/**/*"],
     "assets": [
       "{projectRoot}/**/*.{json,graphql,proto,yaml,yml,html,css,scss,svg,png,jpg,jpeg,ico}",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
@@ -54,9 +52,7 @@
       "{projectRoot}/.dockerignore",
       "{projectRoot}/docker-compose.yml"
     ],
-    "certificates": [
-      "{workspaceRoot}/docs/certificates/**/*.md"
-    ],
+    "certificates": ["{workspaceRoot}/docs/certificates/**/*.md"],
     "sharedGlobals": [
       "{workspaceRoot}/pnpm-lock.yaml",
       "{workspaceRoot}/package.json",
@@ -76,11 +72,21 @@
       "{workspaceRoot}/.env.*"
     ],
     "toolchain": [
-      { "runtime": "node -v" },
-      { "runtime": "pnpm -v" },
-      { "runtime": "go version" },
-      { "env": "NODE_ENV" },
-      { "env": "NX_TASK_TARGET_CONFIGURATION" }
+      {
+        "runtime": "node -v"
+      },
+      {
+        "runtime": "pnpm -v"
+      },
+      {
+        "runtime": "go version"
+      },
+      {
+        "env": "NODE_ENV"
+      },
+      {
+        "env": "NX_TASK_TARGET_CONFIGURATION"
+      }
     ],
     "default": [
       "sources",
@@ -124,9 +130,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": [
-        "*-e2e/**/*"
-      ]
+      "exclude": ["*-e2e/**/*"]
     },
     "@nx-go/nx-go",
     "@nx/eslint/plugin"
@@ -134,103 +138,56 @@
   "generators": {
     "@nx/eslint:lint": {
       "options": {
-        "lintFilePatterns": [
-          "{projectRoot}/**/*.{ts,tsx,js,jsx}"
-        ]
+        "lintFilePatterns": ["{projectRoot}/**/*.{ts,tsx,js,jsx}"]
       }
     }
   },
   "targetDefaults": {
     "@nx/js:tsc": {
       "cache": true,
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "inputs": ["production", "^production"],
+      "outputs": ["{options.outputPath}"]
     },
     "@nx/js:swc": {
       "cache": true,
-      "dependsOn": [
-        "types"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ],
+      "dependsOn": ["types"],
+      "inputs": ["production", "^production"],
       "options": {
         "parallel": true
       },
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "outputs": ["{options.outputPath}"]
     },
     "@nx/webpack:webpack": {
       "cache": true,
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "inputs": ["production", "^production"],
+      "outputs": ["{options.outputPath}"]
     },
     "@nx/node:node": {
       "cache": true,
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{options.outputPath}"
-      ]
+      "inputs": ["production", "^production"],
+      "outputs": ["{options.outputPath}"]
     },
     "build": {
       "cache": true,
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "parallel": true
       }
     },
     "types": {
       "cache": true,
-      "inputs": [
-        "production",
-        "^production"
-      ],
-      "outputs": [
-        "{projectRoot}/dist/types"
-      ]
+      "inputs": ["production", "^production"],
+      "outputs": ["{projectRoot}/dist/types"]
     },
     "test": {
       "cache": true,
-      "inputs": [
-        "default",
-        "^production",
-        "testing",
-        "sharedGlobals"
-      ],
-      "outputs": [
-        "{options.coverageDirectory}"
-      ],
+      "inputs": ["default", "^production", "testing", "sharedGlobals"],
+      "outputs": ["{options.coverageDirectory}"],
       "options": {
         "coverage": true,
-        "coverageReporters": [
-          "text",
-          "lcov",
-          "html"
-        ],
+        "coverageReporters": ["text", "lcov", "html"],
         "coverageThreshold": {
           "global": {
             "branches": 70,
@@ -244,11 +201,7 @@
     },
     "lint": {
       "cache": true,
-      "inputs": [
-        "linting",
-        "^linting",
-        "sharedGlobals"
-      ],
+      "inputs": ["linting", "^linting", "sharedGlobals"],
       "options": {
         "parallel": true
       }
@@ -256,9 +209,7 @@
     "check-boundaries": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": [
-        "sharedGlobals"
-      ],
+      "inputs": ["sharedGlobals"],
       "options": {
         "command": "nx graph --file=graph.json && nx graph --affected --file=affected-graph.json",
         "parallel": true
@@ -267,9 +218,7 @@
     "format": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": [
-        "default"
-      ],
+      "inputs": ["default"],
       "options": {
         "command": "biome format --write .",
         "parallel": true
@@ -278,10 +227,7 @@
     "biome-check": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": [
-        "default",
-        "sharedGlobals"
-      ],
+      "inputs": ["default", "sharedGlobals"],
       "options": {
         "command": "biome check --formatter-enabled=true .",
         "cwd": "{workspaceRoot}",
@@ -289,24 +235,16 @@
       }
     },
     "serve": {
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "cache": false
     },
     "tidy": {
       "cache": true,
-      "inputs": [
-        "go",
-        "sharedGlobals"
-      ]
+      "inputs": ["go", "sharedGlobals"]
     },
     "sync-go-deps": {
       "cache": false,
-      "inputs": [
-        "go",
-        "sharedGlobals"
-      ]
+      "inputs": ["go", "sharedGlobals"]
     }
   },
   "cacheDirectory": ".nx/cache",
@@ -314,11 +252,7 @@
   "parallel": 5,
   "defaultBase": "main",
   "release": {
-    "projects": [
-      "@your-org/*",
-      "!@your-org/your-project",
-      "your-project/*"
-    ],
+    "projects": ["@your-org/*", "!@your-org/your-project", "your-project/*"],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
     "git": {
